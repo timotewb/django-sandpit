@@ -2,10 +2,19 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import dotenv
 
 
 def main():
     """Run administrative tasks."""
+
+    # If WEBSITE_HOSTNAME is defined as an environment variable, then we're running on Azure App Service
+
+    # Only for Local Development - Load environment variables from the .env file
+    if 'WEBSITE_HOSTNAME' not in os.environ:
+        print("Loading environment variables for .env file")
+        dotenv.load_dotenv('./.env')
+
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ft.settings')
     try:
         from django.core.management import execute_from_command_line
