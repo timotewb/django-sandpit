@@ -45,11 +45,24 @@ def saveData(request):
     data = json.loads(request.body.decode("utf-8"))['nodeDataArray']
     print(data)
 
-    # m = models.Ftree_Hierarchy.all().delete()
+    m = models.Ftree_Hierarchy.objects.all().delete()
+    objs = list()
     for d in data:
-        if 'parent' not in d:
-            d.parent = None
-        
+        if 'parent' in d:
+            p = d['parent']
+        else:
+            p = None
+        m = models.Ftree_Hierarchy(
+            key = d["key"],
+            name = d["name"],
+            title = d["title"],
+            pic = d["pic"],
+            parent = p
+        )
+        objs.append(m)
+    m = models.Ftree_Hierarchy.objects.bulk_create(objs)
 
-
-    return HttpResponse(request.body)
+    # return HttpResponse(request.body)
+    response = HttpResponse('Data Updates')
+    response.status_code = 201  # sample status code
+    return response
