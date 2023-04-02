@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("ft.apps.main.urls")),
-    path('ftree', include("ft.apps.ftree.urls")),
+    path('ftree/', include("ft.apps.ftree.urls")),
 ]

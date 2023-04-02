@@ -1,0 +1,135 @@
+{%extends 'main/base.html'%}
+
+
+{%load static%}
+
+{%block title%}FTree{%endblock%}
+
+{% block js %}
+<script src="{% static 'js/go-debug.js' %}"></script>
+{% endblock %}
+
+{%block content%}
+
+{% url 'ftree:save_data' as save_data_url %}
+
+<h1>Family Tree</h1>
+<!-- The DIV for a Diagram needs an explicit size or else we will not see anything.
+     In this case we also add a background color so we can see that area. -->
+<div id="myDiagramDiv" style="width: 1029px; height: 552px; background-color: #DAE4E4;"></div>
+{% csrf_token %}
+<div>
+  <div>
+    <button id="SaveButton" onclick="save()" disabled="" control-id="ControlID-3">Save</button>
+    <button onclick="load()" control-id="ControlID-4">Load</button>
+    Diagram Model saved in JSON format:
+  </div>
+  <textarea id="mySavedModel" style="width:100%; height:270px;" control-id="ControlID-5">{ "class": "go.TreeModel",
+"nodeDataArray":
+  {{people_data}}
+}
+  </textarea>
+</div>
+
+<script>
+function init() {
+
+// Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+// For details, see https://gojs.net/latest/intro/buildingObjects.html
+const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+myDiagram =
+  $(go.Diagram, "myDiagramDiv", // must be the ID or reference to div
+    {
+      allowCopy: false,
+      allowDelete: false,
+      initialAutoScale: go.Diagram.Uniform,
+      maxSelectionCount: 1, // users can select only one part at a time
+      validCycle: go.Diagram.CycleDestinationTree, // make sure users can only create trees
+      "clickCreatingTool.archetypeNodeData": { // allow double-click in background to create a new node
+        name: "(new person)",
+        title: "",
+        comments: ""
+      },
+      "clickCreatingTool.insertPart": function(loc) {  // method override must be function, not =>
+        const node = go.ClickCreatingTool.prototype.insertPart.call(this, loc);
+        if (node !== null) {
+          this.diagram.select(node);
+          this.diagram.commandHandler.scrollToPart(node);
+          this.diagram.commandHandler.editTextBlock(node.findObject("NAMETB"));
+        }
+        return node;
+      },
+      layout:
+        $(go.TreeLayout,
+          {
+            treeStyle: go.TreeLayout.StyleLastParents,
+            arrangement: go.TreeLayout.ArrangementHorizontal,
+            // properties for most of the tree:
+            angle: 90,
+            layerSpacing: 35,
+            // properties for the "last parents":
+            alternateAngle: 90,
+            alternateLayerSpacing: 35,
+            alternateAlignment: go.TreeLayout.AlignmentBus,
+            alternateNodeSpacing: 20
+          }),
+      "undoManager.isEnabled": true // enable undo & redo
+    });
+
+// when the document is modified, add a "*" to the title and enable the "Save" button
+myDiagram.addDiagramListener("Modified", e => {
+  const button = document.getElementById("SaveButton");
+  if (button) button.disabled = !myDiagram.isModified;
+  const idx = document.title.indexOf("*");
+  if (myDiagram.isModified) {
+    if (idx < 0) document.title += "*";
+  } else {
+    if (idx >= 0) document.title = document.title.slice(0, idx);
+  }
+})
+
+// read in the JSON-format data from the "mySavedModel" element
+load();
+}
+
+function load() {
+  myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+  // make sure new data keys are unique positive integers
+  let lastkey = 1;
+  myDiagram.model.makeUniqueKeyFunction = (model, data) => {
+    let k = data.key || lastkey;
+    while (model.findNodeDataForKey(k)) k++;
+    data.key = lastkey = k;
+    return k;
+  };
+}
+
+function save() {
+  document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+  myDiagram.isModified = false;
+  var data = myDiagram.model.toJson();
+  token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const xhr = new XMLHttpRequest();
+  console.log("{{save_data_url}}");
+  xhr.open("POST", "{{save_data_url}}");
+  xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+  xhr.setRequestHeader('X-CSRFToken', token);
+  const body = JSON.stringify({
+    userId: 1,
+    title: "Fix my bugs",
+    completed: false
+  });
+  xhr.onload = () => {
+    if (xhr.readyState == 4 && (xhr.status == 201 | xhr.status == 200)) {
+      console.log(JSON.parse(xhr.responseText));
+    } else {
+      console.log(`Error: ${xhr.status}`);
+    }
+  };
+  xhr.send(data);
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+{%endblock%}

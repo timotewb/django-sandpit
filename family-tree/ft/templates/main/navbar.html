@@ -1,7 +1,11 @@
 {% url 'main:index' as index_url %}
 {% url 'ftree:ftree' as ftree_url %}
+{% url 'ftree:add_person' as ftree_add_person_url %}
+{% url 'ftree:save_data' as save_data_url %}
 
 <ul>
     <li><a href='{{index_url}}'>Home</a></li>
     <li><a href='{{ftree_url}}'>Family Tree</a></li>
+    <li><a href='{{ftree_add_person_url}}'>Add Person</a></li>
+    <li><a href='{{save_data_url}}'>Save Data</a></li>
 </ul>
