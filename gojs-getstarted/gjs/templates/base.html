@@ -1,0 +1,24 @@
+<!-- templates/main/base.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {%block title%}
+            {%endblock%}
+        </title>
+        {%block css%}
+        {%endblock%}
+        {%block js%}
+        {%endblock%}
+    </head>
+    
+    {% include 'navbar.html' %}
+
+    <body>
+        {%block content%}
+        {%endblock%}
+        {%block js_end%}
+        {%endblock%}
+    </body>
+</html>
