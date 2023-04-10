@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+
+{%block title%}Example 02{%endblock%}
+
+{%block js%}
+<script src="https://unpkg.com/gojs/release/go-debug.js"></script>
+{%endblock%}
+
+{%block content%}
+<h1>Example 02</h1>
+
+<div id="myDiagramDiv" style="width:600px; height:600px; background-color: #4e8de0;"></div>
+
+{%endblock%}
+
+
+{%block js_end%}
+<script>
+    const myDiagram = 
+        new go.Diagram("myDiagramDiv",
+        {
+            "undoManager.isEnabled": true
+        });
+    myDiagram.model = new go.Model(
+        [
+            {key:"Test01-e2"},
+            {key:"Test02-e2"},
+            {key:"Test03-e2"}
+        ]
+    );
+    myDiagram.nodeTemplate = 
+        new go.Node("Vertical",{locationSpot: go.Spot.Center, background: "#44CCFF"}).bind("location", "loc")
+            .add(new go.Shape("Circle").bind("figure", "fig"))
+            .add(new go.TextBlock("default text").bind("text", "key"));
+</script>
+{%endblock%}
