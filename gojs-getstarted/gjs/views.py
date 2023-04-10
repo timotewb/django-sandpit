@@ -15,3 +15,7 @@ def example02(request):
 def example03(request):
     context=dict()
     return render(request=request, template_name="example03.html", context=context)
+
+def kindsofmodels(request):
+    context=dict()
+    return render(request=request, template_name="kindsofmodels.html", context=context)
