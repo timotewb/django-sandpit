@@ -1,3 +1,17 @@
-node -v v12.18.3
-npm -v 6.14.6
+node -v v18.16.0
+npm -v 9.5.1
 python 3.9.14
+
+npm init -y
+npm i webpack webpack-cli --save-dev
+npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+npm i react react-dom --save-dev
+npm install @material-ui/core
+npm install @babel/plugin-proposal-class-properties
+npm install react-router-dom
+npm install @material-ui/icons
+
+
+
+
+3 - https://www.youtube.com/watch?v=6c2NqDyxppU
