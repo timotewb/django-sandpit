@@ -1,0 +1,65 @@
+python -m venv venv
+python -m pip install --upgrade pip
+touch requirements.txt
+"""
+Django==4.2
+djangorestframework==3.14.0
+"""
+
+python -m pip install -r requirements.txt
+django-admin startproject django_react01
+django-admin startapp api
+django-admin startapp frontend
+
+> In django_react01/settings.py add code ot apps
+"""
+'api.apps.ApiConfig',
+'frontend.apps.ApiConfig',
+'rest_framework',
+"""
+
+> In frontend create folders
+mkdir -p src
+mkdir -p static/css
+mkdir -p static/frontend
+mkdir -p templates/frontend
+
+> In frontend create files
+touch src/index.js
+touch webpack.config.js
+
+> In frontend/webpack.config.js add code
+"""
+const path = require("path");
+const webpack = require("webpack");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "./static/frontend"),
+    filename: "[name].js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
+  optimization: {
+    minimize: true,
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {
+        // This has effect on the react lib size
+        NODE_ENV: JSON.stringify("development"),
+      },
+    }),
+  ],
+};
+"""
