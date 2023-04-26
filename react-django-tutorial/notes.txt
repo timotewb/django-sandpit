@@ -16,3 +16,4 @@ npm run dev (package.json)
 
 
 3 - https://www.youtube.com/watch?v=6c2NqDyxppU
+6 - https://www.youtube.com/watch?v=bQXhG1eZGLM

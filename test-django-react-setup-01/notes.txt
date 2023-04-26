@@ -63,3 +63,29 @@ module.exports = {
   ],
 };
 """
+
+> In frontend run below code
+npm init -y
+
+> Change version in newly created package.json file from ^18.2.0 to ^17.0.0
+
+> In frontend run below code
+npm i webpack webpack-cli --save-dev
+npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+npm i react react-dom --save-dev
+npm install @material-ui/core
+npm install @babel/plugin-proposal-class-properties
+npm install react-router-dom
+npm install @material-ui/iconsm
+npm install react react-dom --save-dev
+
+> Change code in package.json
+"""
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+"""
+
+> Fire it up lets go! (in frontend)
+npm run dev
