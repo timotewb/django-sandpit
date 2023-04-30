@@ -40,10 +40,8 @@ def addPerson(request):
     return render(request, "ftree/add_person.html", context)
 
 def saveData(request):
-    print("Run: ftree:saveData")
 
     data = json.loads(request.body.decode("utf-8"))['nodeDataArray']
-    print(data)
 
     m = models.Ftree_Hierarchy.objects.all().delete()
     objs = list()
@@ -62,7 +60,6 @@ def saveData(request):
         objs.append(m)
     m = models.Ftree_Hierarchy.objects.bulk_create(objs)
 
-    # return HttpResponse(request.body)
-    response = HttpResponse('Data Updates')
+    response = HttpResponse('Family Tree saved to database.')
     response.status_code = 201  # sample status code
     return response

@@ -101,6 +101,7 @@ const levelColors = ["#AC193D", "#2672EC", "#8C0095", "#5133AB",
     myDiagram.layout.network.vertexes.each(v => {
       if (v.node) {
         const level = v.level % (levelColors.length);
+        console.log(level);
         const color = levelColors[level];
         const shape = v.node.findObject("SHAPE");
         if (shape) shape.stroke = $(go.Brush, "Linear", { 0: color, 1: go.Brush.lightenBy(color, 0.05), start: go.Spot.Left, end: go.Spot.Right });
