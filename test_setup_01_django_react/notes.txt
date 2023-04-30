@@ -1,0 +1,61 @@
+python 3.14.9
+nvm/node 18.16.0
+
+VS Code Extensions:
+- Prettier - Code formatter
+- Python
+- Django
+- Es7 React/Redux
+- Javascript (ES6)
+
+> django-admin startproject test_project
+> cd test_project
+> django-admin startapp api
+
+Add api app to test_project:
+# test_project/test_project/settings.py
+"""
+'api.apps.ApiConfig',
+'rest_framwork',
+"""
+referencing class in file test_project/api/apps.py - ApiConfig()
+
+https://www.youtube.com/watch?v=6c2NqDyxppU&list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j&index=3
+Setup react integration:
+> django-admin startapp frontend
+> cd frontend
+> mkdir templates
+> mkdir -p static/css
+> mkdir -p static/frontend
+> mkdir -p static/images
+> mkdir -p src/components
+> npm init -y
+> npm config set legacy-peer-deps true
+> npm i
+> npm i webpack webpack-cli --save-dev
+> npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+> npm i react react-dom --save-dev
+> npm install @material-ui/core
+> npm install @babel/plugin-proposal-class-properties
+> npm install react-router-dom
+> npm install @material-ui/icons
+
+> touch babel.config.json
+Get code from file: https://github.com/techwithtim/Music-Controller-Web-App-Tutorial/blob/main/Tutorial%201%20-%204/frontend/babel.config.json
+
+> touch webpack.config.js
+Get code from file: https://github.com/techwithtim/Music-Controller-Web-App-Tutorial/blob/main/Tutorial%201%20-%204/frontend/webpack.config.js
+
+Update code to include scripts
+# test_project/frontend/package.json
+Get code from file: https://github.com/techwithtim/Music-Controller-Web-App-Tutorial/blob/main/Tutorial%201%20-%204/frontend/package.json
+
+> touch src/index.js
+> mkdir -p templates/frontend
+> touch templates/frontend/index.html
+Get code from file: https://github.com/techwithtim/Music-Controller-Web-App-Tutorial/blob/main/Tutorial%201%20-%204/frontend/templates/frontend/index.html
+
+> touch urls.py
+> touch src/components/App.js
+
+> npm run dev
